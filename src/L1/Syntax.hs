@@ -24,8 +24,8 @@ data Expr
   | New ClassId
   | X
   | This
-  | True_  -- prevent name clash
-  | False_ -- prevent name clash
+  | TrueE  -- prevent name clash
+  | FalseE -- prevent name clash
   | Null
 
 type ClassId = String
