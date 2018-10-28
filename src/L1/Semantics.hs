@@ -6,7 +6,7 @@ import           L1.Syntax
 
 mkVal :: Value -> Heap -> (Result, Heap)
 mkVal v h
-  = (Value v, h)
+  = (Right v, h)
 
 mkStuck :: Heap -> (Result, Heap)
 mkStuck
@@ -18,7 +18,7 @@ mkNPE
 
 mkDev :: Deviation -> Heap -> (Result, Heap)
 mkDev d h
-  = (Deviation d, h)
+  = (Left d, h)
 
 eval :: Program -> Expr -> StackFrame -> Heap -> (Result, Heap)
 eval p TrueE _ h
@@ -33,11 +33,11 @@ eval p X s h
   = mkVal (stackX s) h
 eval p (If e e1 e2) s h
   = case eval p e s h of
-    (Value TrueV, h1) ->
+    (Right TrueV, h1) ->
       eval p e1 s h1
-    (Value FalseV, h1) ->
+    (Right FalseV, h1) ->
       eval p e2 s h1
-    (Deviation d, h1) ->
+    (Left d, h1) ->
       mkDev d h1
     (_, h1) ->
       mkStuck h1
@@ -45,25 +45,25 @@ eval p (If e e1 e2) s h
     (r1, h1) = eval p e s h
 eval p (FieldAccess e f) s h
   = case eval p e s h of
-    (Value NullV, h1) ->
+    (Right NullV, h1) ->
       mkNPE h1
-    (Value (Address a), h1) ->
+    (Right (Address a), h1) ->
       mkVal (heapObjectField h a f) h1
-    (Deviation d, h1) ->
+    (Left d, h1) ->
       mkDev d h1
     (_, h1) ->
       mkStuck h1
 eval p (FieldAssign e f e') s h
   = case eval p e s h of
-    (Value (Address a), h1) ->
+    (Right (Address a), h1) ->
       case eval p e' s h1 of
-        (Value v, h2) ->
+        (Right v, h2) ->
           mkVal v (heapFieldUpdate h a f v)
-        (Deviation d, h2) ->
+        (Left d, h2) ->
           mkDev d h2
-    (Value NullV, h1) ->
+    (Right NullV, h1) ->
       mkNPE h1
-    (Deviation d, h1) ->
+    (Left d, h1) ->
       mkDev d h1
     (_, h1) ->
       mkStuck h1
@@ -74,15 +74,15 @@ eval p (New c) s h
     o = newObject p c
 eval p (MethCall e0 m e1) s h
   = case eval p e0 s h of
-    (Value (Address a), h1) ->
+    (Right (Address a), h1) ->
       case eval p e1 s h of
-        (Value v1, h2) ->
+        (Right v1, h2) ->
           eval p (methodBody p (heapClass h2 a) m) (a, v1) h2
-        (Deviation d, h2) ->
+        (Left d, h2) ->
           mkDev d h2
-    (Value NullV, h1) ->
+    (Right NullV, h1) ->
       mkNPE h1
-    (Deviation d, h1) ->
+    (Left d, h1) ->
       mkDev d h1
     (_, h1) ->
       mkStuck h1

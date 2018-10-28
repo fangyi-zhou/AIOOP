@@ -22,6 +22,4 @@ data Deviation
   = NullPntrExc
   | StuckErr
 
-data Result
-  = Deviation Deviation
-  | Value Value
+type Result = Either Deviation Value
