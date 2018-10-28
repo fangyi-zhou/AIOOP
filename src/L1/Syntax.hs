@@ -8,10 +8,10 @@ type ClassDef
   = (M.Map FieldId Type, M.Map MethId Method)
 data Method
   = Method
-  { retType :: Type
-  , methName :: MethId
+  { retType   :: Type
+  , methName  :: MethId
   , paramType :: Type
-  , methBody :: Expr
+  , methBody  :: Expr
   }
 data Type
   = Class ClassId

@@ -1,8 +1,8 @@
 module L1.Semantics (eval) where
 
-import L1.Syntax
-import L1.Runtime
-import L1.Lookup
+import           L1.Lookup
+import           L1.Runtime
+import           L1.Syntax
 
 mkVal :: Value -> Heap -> (Result, Heap)
 mkVal v h

@@ -1,8 +1,8 @@
 module L1.Runtime where
 
-import qualified Data.Map as M
-import Data.Maybe ( fromMaybe )
-import L1.Syntax
+import qualified Data.Map   as M
+import           Data.Maybe (fromMaybe)
+import           L1.Syntax
 
 type Address = Int
 

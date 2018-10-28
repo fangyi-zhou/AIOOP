@@ -1,9 +1,9 @@
 module L1.Examples where
 
-import qualified Data.Map as M
+import qualified Data.Map   as M
 
-import L1.Syntax
-import L1.Runtime
+import           L1.Runtime
+import           L1.Syntax
 
 
 book :: ClassDef

@@ -1,10 +1,10 @@
 module L1.Lookup where
 
-import Data.Functor ( (<&>) )
-import qualified Data.Map as M
+import           Data.Functor ((<&>))
+import qualified Data.Map     as M
 
-import L1.Syntax
-import L1.Runtime
+import           L1.Runtime
+import           L1.Syntax
 
 field :: Program -> ClassId -> FieldId -> Type
 field p c f
@@ -57,7 +57,7 @@ newAddress h
   = 1 + maybe 0 fst (M.lookupMax h)
 
 newFieldValue :: Type -> Value
-newFieldValue Bool = FalseV
+newFieldValue Bool      = FalseV
 newFieldValue (Class _) = NullV
 
 newObject :: Program -> ClassId -> Object
