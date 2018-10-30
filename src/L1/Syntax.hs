@@ -26,7 +26,7 @@ data Expr
   | This
   | TrueE  -- prevent name clash
   | FalseE -- prevent name clash
-  | Null
+  | NullE
 
 type ClassId = String
 type FieldId = String

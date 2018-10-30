@@ -25,7 +25,7 @@ eval p TrueE _ h
   = mkVal TrueV h
 eval p FalseE _ h
   = mkVal FalseV h
-eval p Null _ h
+eval p NullE _ h
   = mkVal NullV h
 eval p This s h
   = mkVal (Address $ stackThis s) h
